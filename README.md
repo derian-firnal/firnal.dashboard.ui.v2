@@ -1,6 +1,6 @@
-# DashStack
+# firnal.dashboard.ui
 
-DashStack is a feature-rich backend dashboard application built during my frontend training program. This project allows users to manage products, people, events, and todos. It utilizes a variety of modern frontend technologies to provide a seamless and dynamic user experience.
+firnal.dashboard.ui is a feature-rich backend dashboard application built during my frontend training program. This project allows users to manage products, people, events, and todos. It utilizes a variety of modern frontend technologies to provide a seamless and dynamic user experience.
 
 ## Features
 
@@ -21,32 +21,6 @@ DashStack is a feature-rich backend dashboard application built during my fronte
 - **React Icons:** A collection of popular icons for React projects.
 - **Recharts:** A composable charting library for creating visual data insights.
 - **Git:** Version control for tracking changes in the project.
-
-## Installation
-
-1. Clone the repository:
-
-    ```bash
-    git clone https://github.com/your-username/dashstack.git
-    ```
-
-2. Navigate to the project directory:
-
-    ```bash
-    cd dashstack
-    ```
-
-3. Install dependencies:
-
-    ```bash
-    npm install
-    ```
-
-4. Start the development server:
-
-    ```bash
-    npm run dev
-    ```
 
 ## Firebase Setup
 
@@ -73,24 +47,10 @@ To enable Firebase services in the project:
 - **Event Calendar:** Use the "Events" section to view upcoming events on a calendar interface.
 - **Todos:** Manage personal and work-related tasks in the "Todos" section.
 
-## Screenshots
-
-_Include some screenshots of your project here._
-
-## Contributing
-
-If you would like to contribute to DashStack:
-
-1. Fork the repository.
-2. Create a new feature branch: `git checkout -b feature/your-feature`.
-3. Commit your changes: `git commit -m "Add new feature"`.
-4. Push to the branch: `git push origin feature/your-feature`.
-5. Open a Pull Request.
-
 ## License
 
 This project is licensed under the MIT License.
 
 ## Contact
 
-For any inquiries or suggestions, feel free to reach out via email: your-email@example.com.
+For any inquiries or suggestions, feel free to reach out via email: your-derian@firnal.com.
