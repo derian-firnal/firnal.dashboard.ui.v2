@@ -49,7 +49,7 @@ import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { PiSquareSplitVerticalBold } from "react-icons/pi";
 import SearchBar from '../components/SearchBar';
 import NavDrawer from '../ui/NavDrawer';
-import AppLogo from '../assets/images/dash_stack_logo.png'
+import AppLogo from '../assets/images/firnal_logo.png'
 
 const navigation = [
     { name: 'Dashboard', href: '/', icon: AiOutlineDashboard, current: false },
@@ -213,7 +213,7 @@ export default function Layout() {
                                 src={AppLogo}
                                 className="h-8 w-auto"
                             />
-                            <h3 className={`text-brand-primary-black font-semibold ${shrinkSidebar ? 'hidden' : 'flex'}`}><span className='text-[#2CABE0]'>Dash</span>Stack</h3>
+                            <h3 className={`text-brand-primary-black font-semibold ${shrinkSidebar ? 'hidden' : 'flex'}`}><span className='text-[#2CABE0]'>Firnal</span>Moonbrush</h3>
                         </div>
                         <nav className="flex flex-1 flex-col">
                             <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -340,10 +340,10 @@ export default function Layout() {
                                 />
                             </form> */}
                             <div className="flex items-center gap-x-4 lg:gap-x-6">
-                                <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
+                                {/* <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
                                     <span className="sr-only">View notifications</span>
                                     <BellIcon aria-hidden="true" className="h-6 w-6" />
-                                </button>
+                                </button> */}
 
                                 {/* Separator */}
                                 <div aria-hidden="true" className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" />

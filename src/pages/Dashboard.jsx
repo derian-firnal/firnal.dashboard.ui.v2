@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { HiMiniUsers, HiMiniCube } from "react-icons/hi2";
 import { BiLineChart } from "react-icons/bi";
 import { PiClockCounterClockwiseFill } from "react-icons/pi";
@@ -15,6 +16,7 @@ import RevenueChart from "../components/charts/RevenueChart";
 import SalesAnalyticsChart from "../components/charts/SalesAnalyticsChart";
 import CustomersChart from "../components/charts/CustomersChart";
 import TablePagination from '../components/TablePagination';
+import AudienceStatusPopup from "../components/AudienceStatusPopup";
 
 const dashboardData = [
   {
@@ -99,6 +101,19 @@ const audienceRows = [
 
 
 const Dashboard = () => {
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
+
+  const handleRowClick = (row) => {
+    setSelectedRow(row);
+    setPopupOpen(true);
+  };
+
+  const handleStatusSelect = (status) => {
+    console.log("Selected Status:", status);
+    // optional: send status to backend or update local state
+  };
+
   return (
     <>
       <PagesTitle />
@@ -155,6 +170,7 @@ const Dashboard = () => {
         <table className="min-w-full text-sm text-gray-800">
           <thead className="text-left text-xs uppercase bg-gray-100 text-gray-500">
             <tr>
+              <th className="px-4 py-3">Include</th>
               <th className="px-4 py-3">Audience Name</th>
               <th className="px-4 py-3">Records</th>
               <th className="px-4 py-3">Date Uploaded</th>
@@ -164,15 +180,16 @@ const Dashboard = () => {
           </thead>
           <tbody className="divide-y divide-gray-200">
             {audienceRows.map((row) => (
-              <tr key={row.id} className="hover:bg-gray-50 transition">
+              <tr key={row.id} className="hover:bg-gray-50 transition cursor-pointer" onClick={() => handleRowClick(row)}>
+                <td className="px-4 py-3"><input type="checkbox" /></td>
                 <td className="px-4 py-3">{row.name}</td>
                 <td className="px-4 py-3">{row.records}</td>
                 <td className="px-4 py-3">{row.date}</td>
                 <td className="px-4 py-3">{row.match}</td>
                 <td className="px-4 py-3">
                   <span className={`px-3 py-1 rounded-full text-xs font-semibold ${row.status === 'Completed' ? 'bg-green-100 text-green-800' :
-                      row.status === 'Downloaded' ? 'bg-purple-100 text-purple-800' :
-                        'bg-orange-100 text-orange-800'
+                    row.status === 'Downloaded' ? 'bg-purple-100 text-purple-800' :
+                      'bg-orange-100 text-orange-800'
                     }`}>
                     {row.status}
                   </span>
@@ -185,6 +202,14 @@ const Dashboard = () => {
         <div className="px-4">
           <TablePagination />
         </div>
+
+        {/* Audience Status Popup */}
+        <AudienceStatusPopup
+          open={popupOpen}
+          onClose={() => setPopupOpen(false)}
+          onSelect={handleStatusSelect}
+          initialStatus={selectedRow?.status || null}
+        />
       </div>
 
 
