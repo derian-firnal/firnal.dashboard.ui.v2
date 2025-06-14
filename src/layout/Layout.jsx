@@ -53,21 +53,25 @@ import AppLogo from '../assets/images/firnal_logo.png'
 
 const navigation = [
     { name: 'Dashboard', href: '/', icon: AiOutlineDashboard, current: false },
-    { name: 'Products', href: '/products', icon: PiGridFour, current: false },
-    { name: 'Favorites', href: '/favorites', icon: LiaHeart, current: false },
-    { name: 'Inbox', href: '/inbox', icon: HiOutlineChatAlt2, current: false },
-    { name: 'Order Lists', href: '/order-lists', icon: LiaListAlt, current: false },
-    { name: 'Products Stock', href: '/product-stock', icon: PiSquareSplitVerticalBold, current: false },
+    { name: 'Audiences', href: '/audiences', icon: AiOutlineDashboard, current: false },
+    { name: 'Customer Profile', href: '/customerProfile', icon: AiOutlineDashboard, current: false },
+    { name: 'Search Audiences', href: '/searchAudiences', icon: AiOutlineDashboard, current: false },
+    { name: 'Intent Feed', href: '/intentFeed', icon: AiOutlineDashboard, current: false },
+    // { name: 'Products', href: '/products', icon: PiGridFour, current: false },
+    // { name: 'Favorites', href: '/favorites', icon: LiaHeart, current: false },
+    // { name: 'Inbox', href: '/inbox', icon: HiOutlineChatAlt2, current: false },
+    // { name: 'Order Lists', href: '/order-lists', icon: LiaListAlt, current: false },
+    // { name: 'Products Stock', href: '/product-stock', icon: PiSquareSplitVerticalBold, current: false },
 ]
 const pages = [
     { id: 1, name: 'Pricing', href: '/pricing', icon: LiaGiftSolid, current: false },
-    { id: 2, name: 'Calendar', href: '/calendar', icon: LiaCalendar, current: false },
-    { id: 3, name: 'To-Do', href: '/todo', icon: LiaClipboard, current: false },
-    { id: 4, name: 'Contact', href: '/contact', icon: LiaUserFriendsSolid, current: false },
-    { id: 5, name: 'Invoice', href: '/invoice', icon: FaRegMoneyBillAlt, current: false },
-    { id: 6, name: 'UI Elements', href: '/ui-elements', icon: SlChart, current: false },
-    { id: 7, name: 'Team', href: '/team', icon: LiaUserSolid, current: false },
-    { id: 8, name: 'Table', href: '/table', icon: LiaTableSolid, current: false },
+    // { id: 2, name: 'Calendar', href: '/calendar', icon: LiaCalendar, current: false },
+    // { id: 3, name: 'To-Do', href: '/todo', icon: LiaClipboard, current: false },
+    // { id: 4, name: 'Contact', href: '/contact', icon: LiaUserFriendsSolid, current: false },
+    // { id: 5, name: 'Invoice', href: '/invoice', icon: FaRegMoneyBillAlt, current: false },
+    // { id: 6, name: 'UI Elements', href: '/ui-elements', icon: SlChart, current: false },
+    // { id: 7, name: 'Team', href: '/team', icon: LiaUserSolid, current: false },
+    // { id: 8, name: 'Table', href: '/table', icon: LiaTableSolid, current: false },
 ]
 const bottomNavigation = [
     { name: 'Settings', href: '#', icon: LiaCogSolid, current: false },
@@ -233,13 +237,13 @@ export default function Layout() {
                                                     {/* {
                                                         location.pathname === item.href
                                                     } */}
-                                                    <item.icon
+                                                    {/* <item.icon
                                                         aria-hidden="true"
                                                         className={classNames(
                                                             location.pathname === item.href ? 'text-[#fff]' : 'text-brand-primary-black group-hover:text-brand-primary-blue',
                                                             'h-6 w-6 shrink-0',
                                                         )}
-                                                    />
+                                                    /> */}
                                                     {shrinkSidebar ? '' : item.name}
                                                 </Link>
                                             </li>
@@ -247,7 +251,7 @@ export default function Layout() {
                                     </ul>
                                 </li>
                                 <li>
-                                    <div className="text-xs font-semibold leading-6 text-gray-400">Your pages</div>
+                                    {/* <div className="text-xs font-semibold leading-6 text-gray-400">Your pages</div> */}
                                     <ul role="list" className="-mx-2 mt-2 space-y-1">
                                         {pages.map((item) => (
                                             <li key={item.name}>
@@ -260,13 +264,13 @@ export default function Layout() {
                                                         'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                                                     )}
                                                 >
-                                                    <item.icon
+                                                    {/* <item.icon
                                                         aria-hidden="true"
                                                         className={classNames(
                                                             location.pathname === item.href ? 'text-[#fff]' : 'text-brand-primary-black group-hover:text-brand-primary-blue',
                                                             'h-6 w-6 shrink-0',
                                                         )}
-                                                    />
+                                                    /> */}
                                                     {shrinkSidebar ? '' : item.name}
                                                 </Link>
                                             </li>
@@ -286,13 +290,13 @@ export default function Layout() {
                                                         'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                                                     )}
                                                 >
-                                                    <item.icon
+                                                    {/* <item.icon
                                                         aria-hidden="true"
                                                         className={classNames(
                                                             location.pathname === item.href ? 'text-[#fff]' : 'text-brand-primary-black group-hover:text-brand-primary-blue',
                                                             'h-6 w-6 shrink-0',
                                                         )}
-                                                    />
+                                                    /> */}
                                                     {shrinkSidebar ? '' : item.name}
                                                 </Link>
                                             </li>

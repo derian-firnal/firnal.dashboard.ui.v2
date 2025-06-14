@@ -17,6 +17,7 @@ import SalesAnalyticsChart from "../components/charts/SalesAnalyticsChart";
 import CustomersChart from "../components/charts/CustomersChart";
 import TablePagination from '../components/TablePagination';
 import AudienceStatusPopup from "../components/AudienceStatusPopup";
+import UploadAudiencePopup from "../components/UploadAudiencePopup";
 
 const dashboardData = [
   {
@@ -101,8 +102,14 @@ const audienceRows = [
 
 
 const Dashboard = () => {
-  const [popupOpen, setPopupOpen] = useState(false);
+  const [statusPopupOpen, setStatusPopupOpen] = useState(false);
+  const [uploadPopupOpen, setUploadPopupOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  
+  const handleUpload = (file) => {
+    console.log("Uploaded file:", file.name);
+    setPopupOpen(false);
+  };
 
   const handleRowClick = (row) => {
     setSelectedRow(row);
@@ -154,7 +161,8 @@ const Dashboard = () => {
 
 
       <div className="flex flex-wrap items-center justify-between mt-8 gap-4">
-        <button className="bg-[#6D6DFA] text-white font-semibold px-5 py-2 rounded-md">
+        <button onClick={() => setUploadPopupOpen(true)} 
+                className="bg-[#6D6DFA] text-white font-semibold px-5 py-2 rounded-md">
           Upload New Audience
         </button>
         <div className="flex flex-wrap gap-3 items-center">
@@ -205,10 +213,16 @@ const Dashboard = () => {
 
         {/* Audience Status Popup */}
         <AudienceStatusPopup
-          open={popupOpen}
-          onClose={() => setPopupOpen(false)}
+          open={statusPopupOpen}
+          onClose={() => setStatusPopupOpen(false)}
           onSelect={handleStatusSelect}
           initialStatus={selectedRow?.status || null}
+        />
+
+        <UploadAudiencePopup
+          open={uploadPopupOpen}
+          onClose={() => setUploadPopupOpen(false)}
+          onFileUpload={handleUpload}
         />
       </div>
 
