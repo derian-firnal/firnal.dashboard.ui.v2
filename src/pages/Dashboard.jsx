@@ -113,7 +113,7 @@ const Dashboard = () => {
 
   const handleRowClick = (row) => {
     setSelectedRow(row);
-    setPopupOpen(true);
+    setStatusPopupOpen(true);
   };
 
   const handleStatusSelect = (status) => {
