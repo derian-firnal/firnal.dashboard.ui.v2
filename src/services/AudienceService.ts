@@ -18,6 +18,16 @@ const audienceService = {
     const response = await IAxiosService.get("audience/getAudienceUploadDetails");
     return response.data;
   },
+
+  getUploadedFilecount: async () => {
+    const response = await IAxiosService.get("audience/getUploadedFileCount");
+    return response.data;
+  },
+
+  getUniqueRecordsCount: async () => {
+    const response = await IAxiosService.get("audience/getUniqueRecordsCount");
+    return response.data;
+  }
 };
 
 export default audienceService;

@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://firnaldashboardapi-v2-production.up.railway.app/api/";
-// const API_BASE_URL = "http://localhost:5223/api/";
+// const API_BASE_URL = "https://firnaldashboardapi-v2-production.up.railway.app/api/";
+const API_BASE_URL = "http://localhost:5223/api/";
 
 const IAxiosService = axios.create({
   baseURL: API_BASE_URL,

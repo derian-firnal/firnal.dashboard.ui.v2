@@ -20,93 +20,71 @@ import AudienceStatusPopup from "../components/AudienceStatusPopup";
 import UploadAudiencePopup from "../components/UploadAudiencePopup";
 import audienceService from "../services/AudienceService";
 
-const dashboardData = [
-  {
-    stats: [
-      {
-        title: 'Audiences Uploaded',
-        value: 40689,
-        icon: {
-          img: <HiMiniUsers />,
-          bg: '#8280FF'
-        },
-        growth: {
-          name: 'progress',
-          rate: 8.5,
-          time: 'yesterday'
-        }
-      },
-      {
-        title: 'Average Match Rate',
-        value: 10293,
-        icon: {
-          img: <BiLineChart />,
-          bg: '#FEC53D'
-        },
-        growth: {
-          name: 'progress',
-          rate: 1.3,
-          time: 'pass week'
-        }
-      },
-      {
-        title: 'Unique Records',
-        value: 89000,
-        icon: {
-          img: <HiMiniTableCells />,
-          bg: '#4AD991'
-        },
-        growth: {
-          name: 'regress',
-          rate: 4.3,
-          time: 'yesterday'
-        }
-      },
-      {
-        title: 'Intent Signals',
-        value: 2040,
-        icon: {
-          img: <PiClockCounterClockwiseFill />,
-          bg: '#FF9066'
-        },
-        growth: {
-          name: 'progress',
-          rate: 1.8,
-          time: 'yesterday'
-        }
-      },
-    ]
-  },
-  {
-    products: [
-      {
-        image: AppleWatchImage,
-        productName: 'apple watch',
-        location: '6096 marjolaine landing',
-        datetime: '12.09.2019 - 12.53 PM',
-        piece: 423,
-        amount: 34295,
-        status: 'delivered'
-      },
-    ]
-  },
-]
-
-// const audienceRows = [
-//   { id: 1, name: "Users since 3/25", records: 3223, date: "14 Feb 2019", match: "92%", status: "Downloaded" },
-//   { id: 2, name: "Userbase Pre 3/25", records: 9663, date: "14 Feb 2019", match: "92%", status: "Processing" },
-//   { id: 3, name: "Low Retention", records: 755, date: "14 Feb 2019", match: "92%", status: "Completed" },
-//   { id: 4, name: "Top Users", records: 915, date: "14 Feb 2019", match: "92%", status: "Completed" },
-//   { id: 5, name: "IG Funnel", records: 6633, date: "14 Feb 2019", match: "92%", status: "Processing" },
-//   { id: 6, name: "FB Funnel", records: 7784, date: "14 Feb 2019", match: "92%", status: "Completed" },
-// ];
-
-
 const Dashboard = () => {
   const [statusPopupOpen, setStatusPopupOpen] = useState(false);
   const [uploadPopupOpen, setUploadPopupOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [audienceRows, setAudienceRows] = useState([]);
+  const [fileCount, setFileCount] = useState([]);
+  const [dashboardStats, setDashboardStats] = useState([]);
+
+
+  useEffect(() => {
+    const getStatsData = async () => {
+      try {
+        const fileCount = await audienceService.getUploadedFilecount();
+        const uniqueUsers = await audienceService.getUniqueRecordsCount();
+
+        setDashboardStats([
+          {
+            title: 'Audiences Uploaded',
+            value: fileCount || 0,
+            icon: { img: <HiMiniUsers />, bg: '#8280FF' },
+            growth: {
+              name: 'progress',
+              rate: 8.5,
+              time: 'yesterday'
+            }
+          },
+          {
+            title: 'Average Match Rate',
+            value: '57%',
+            icon: { img: <BiLineChart />, bg: '#FEC53D' },
+            growth: {
+              name: 'progress',
+              rate: 1.3,
+              time: 'past week'
+            }
+          },
+          {
+            title: 'Unique Records',
+            value: uniqueUsers || 0,
+            icon: { img: <HiMiniTableCells />, bg: '#4AD991' },
+            growth: {
+              name: 'regress',
+              rate: 4.3,
+              time: 'yesterday'
+            }
+          },
+          {
+            title: 'Intent Signals',
+            value: 130,
+            icon: { img: <PiClockCounterClockwiseFill />, bg: '#FF9066' },
+            growth: {
+              name: 'progress',
+              rate: 1.8,
+              time: 'yesterday'
+            }
+          }
+        ]);
+      } catch (err) {
+        console.error("❌ Failed to fetch file counts", err);
+      }
+
+    }
+
+    getStatsData();
+  }, []);
 
   useEffect(() => {
     const fetchUploads = async () => {
@@ -149,11 +127,13 @@ const Dashboard = () => {
     <>
       <PagesTitle />
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mt-5">
-        {dashboardData[0].stats.map((stat, index) => (
-          <DashboardStat key={index} stat={stat} />
-        ))}
-      </div>
+      {dashboardStats.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mt-5">
+          {dashboardStats.map((stat, index) => (
+            <DashboardStat key={index} stat={stat} />
+          ))}
+        </div>
+      )}
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Ideal Customer Profile */}
@@ -185,8 +165,8 @@ const Dashboard = () => {
 
 
       <div className="flex flex-wrap items-center justify-between mt-8 gap-4">
-        <button onClick={() => setUploadPopupOpen(true)} 
-                className="bg-[#6D6DFA] text-white font-semibold px-5 py-2 rounded-md">
+        <button onClick={() => setUploadPopupOpen(true)}
+          className="bg-[#6D6DFA] text-white font-semibold px-5 py-2 rounded-md">
           Upload New Audience
         </button>
         <div className="flex flex-wrap gap-3 items-center">
