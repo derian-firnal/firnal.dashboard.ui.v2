@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HiMiniUsers, HiMiniCube } from "react-icons/hi2";
 import { BiLineChart } from "react-icons/bi";
 import { PiClockCounterClockwiseFill } from "react-icons/pi";
@@ -18,6 +18,7 @@ import CustomersChart from "../components/charts/CustomersChart";
 import TablePagination from '../components/TablePagination';
 import AudienceStatusPopup from "../components/AudienceStatusPopup";
 import UploadAudiencePopup from "../components/UploadAudiencePopup";
+import audienceService from "../services/AudienceService";
 
 const dashboardData = [
   {
@@ -91,21 +92,44 @@ const dashboardData = [
   },
 ]
 
-const audienceRows = [
-  { id: 1, name: "Users since 3/25", records: 3223, date: "14 Feb 2019", match: "92%", status: "Downloaded" },
-  { id: 2, name: "Userbase Pre 3/25", records: 9663, date: "14 Feb 2019", match: "92%", status: "Processing" },
-  { id: 3, name: "Low Retention", records: 755, date: "14 Feb 2019", match: "92%", status: "Completed" },
-  { id: 4, name: "Top Users", records: 915, date: "14 Feb 2019", match: "92%", status: "Completed" },
-  { id: 5, name: "IG Funnel", records: 6633, date: "14 Feb 2019", match: "92%", status: "Processing" },
-  { id: 6, name: "FB Funnel", records: 7784, date: "14 Feb 2019", match: "92%", status: "Completed" },
-];
+// const audienceRows = [
+//   { id: 1, name: "Users since 3/25", records: 3223, date: "14 Feb 2019", match: "92%", status: "Downloaded" },
+//   { id: 2, name: "Userbase Pre 3/25", records: 9663, date: "14 Feb 2019", match: "92%", status: "Processing" },
+//   { id: 3, name: "Low Retention", records: 755, date: "14 Feb 2019", match: "92%", status: "Completed" },
+//   { id: 4, name: "Top Users", records: 915, date: "14 Feb 2019", match: "92%", status: "Completed" },
+//   { id: 5, name: "IG Funnel", records: 6633, date: "14 Feb 2019", match: "92%", status: "Processing" },
+//   { id: 6, name: "FB Funnel", records: 7784, date: "14 Feb 2019", match: "92%", status: "Completed" },
+// ];
 
 
 const Dashboard = () => {
   const [statusPopupOpen, setStatusPopupOpen] = useState(false);
   const [uploadPopupOpen, setUploadPopupOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-  
+  const [audienceRows, setAudienceRows] = useState([]);
+
+  useEffect(() => {
+    const fetchUploads = async () => {
+      try {
+        const data = await audienceService.getAudienceUploadDetails();
+        const transformed = data.map((item) => ({
+          id: item.id,
+          name: item.audienceName || item.fileName,
+          records: item.records || item.rowCount || 0,
+          date: new Date(item.uploadedAt).toLocaleDateString(),
+          match: item.matchRate || "92%",
+          status: item.status || "Processing",
+        }));
+        setAudienceRows(transformed);
+      } catch (err) {
+        console.error("❌ Failed to fetch upload details", err);
+      }
+    };
+
+    fetchUploads();
+  }, []);
+
+
   const handleUpload = (file) => {
     console.log("Uploaded file:", file.name);
     setPopupOpen(false);

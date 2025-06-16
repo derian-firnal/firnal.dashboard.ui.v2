@@ -1,23 +1,37 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import audienceService from "../services/AudienceService";
 
 interface UploadAudiencePopupProps {
   open: boolean;
   onClose: () => void;
-  onFileUpload: (file: File) => void;
 }
 
 export default function UploadAudiencePopup({
   open,
   onClose,
-  onFileUpload,
 }: UploadAudiencePopupProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   if (!open) return null;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) onFileUpload(file);
+    if (e.target.files) {
+      setSelectedFiles(Array.from(e.target.files));
+    }
+  };
+
+  const handleUpload = async () => {
+    if (selectedFiles.length === 0) return;
+
+    try {
+      await audienceService.uploadAudienceFiles(selectedFiles);
+      alert("✅ Upload successful!");
+      onClose();
+    } catch (error) {
+      console.error("Upload failed:", error);
+      alert("❌ Upload failed.");
+    }
   };
 
   return (
@@ -51,13 +65,27 @@ export default function UploadAudiencePopup({
           <input
             ref={fileInputRef}
             type="file"
-            accept=".csv, .xlsx"
+            accept=".csv,.xlsx"
             className="hidden"
+            multiple
             onChange={handleFileChange}
           />
         </div>
 
-        <p className="text-xs text-gray-300">
+        {selectedFiles.length > 0 && (
+          <div className="text-xs text-gray-300 mb-3">
+            Selected files: {selectedFiles.map(f => f.name).join(", ")}
+          </div>
+        )}
+
+        <button
+          onClick={handleUpload}
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded"
+        >
+          Upload
+        </button>
+
+        <p className="text-xs text-gray-300 mt-4">
           Only support <strong>.XLSX</strong> and <strong>.CSV</strong> files –
           Need help? <span className="text-purple-300 underline cursor-pointer">Download sample data</span>
         </p>
