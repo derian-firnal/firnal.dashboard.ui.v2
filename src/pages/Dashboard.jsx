@@ -124,7 +124,7 @@ const Dashboard = () => {
   };
 
   return (
-    <>
+    <div className="p-6 space-y-6 text-gray-900 min-h-screen">
       <PagesTitle />
 
       {dashboardStats.length > 0 && (
@@ -269,7 +269,7 @@ const Dashboard = () => {
 
         <SalesAnalyticsChart />
       </div> */}
-    </>
+    </div>
   )
 }
 
