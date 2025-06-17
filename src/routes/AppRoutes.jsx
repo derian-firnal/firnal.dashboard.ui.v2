@@ -5,6 +5,7 @@ import PrivateRoutes from '../components/PrivateRoutes'
 import Login from '../pages/Login'
 import SignUp from '../pages/SignUp'
 import Dashboard from '../pages/Dashboard'
+import AudiencesPage from "../pages/Audiences"
 import Products from '../pages/Products'
 import Favorites from '../pages/Favorites'
 import Inbox from "../pages/Inbox"
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <Dashboard />
+                    },
+                    {
+                        path: 'audiences',
+                        element: <AudiencesPage />
                     },
                     {
                         path: 'products',

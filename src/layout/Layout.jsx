@@ -53,7 +53,7 @@ import AppLogo from '../assets/images/firnal_logo.png'
 
 const navigation = [
     { name: 'Dashboard', href: '/', icon: AiOutlineDashboard, current: false },
-    { name: 'Audiences', href: '/audiences', icon: AiOutlineDashboard, current: false },
+    { name: 'Audiences', href: '/Audiences', icon: AiOutlineDashboard, current: false },
     { name: 'Customer Profile', href: '/customerProfile', icon: AiOutlineDashboard, current: false },
     { name: 'Search Audiences', href: '/searchAudiences', icon: AiOutlineDashboard, current: false },
     { name: 'Intent Feed', href: '/intentFeed', icon: AiOutlineDashboard, current: false },
@@ -324,7 +324,7 @@ export default function Layout() {
                             <span className='flex items-center gap-5 w-1/2'>
                             {/* //fixme - shrink side bar */}
                                 {/* <NavDrawer onClick={() => setShrinkSidebar(!shrinkSidebar)} /> */}
-                                <SearchBar classNames={'w-1/2 bg-[#fff]'} inputClassNames={'block w-full border-0 py-0 pl-10 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm bg-[#F5F6FA]'} />
+                                {/* <SearchBar classNames={'w-1/2 bg-[#fff]'} inputClassNames={'block w-full border-0 py-0 pl-10 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm bg-[#F5F6FA]'} /> */}
                             </span>
 
                             {/* <form action="#" method="GET" className="relative flex flex-1">
@@ -358,12 +358,12 @@ export default function Layout() {
                                         <span className="sr-only">Open user menu</span>
                                         <img
                                             alt=""
-                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                            src="https://static.wixstatic.com/media/01b8c6_55106b2deb9e439a9fcb7e6140605822~mv2.png/v1/crop/x_0,y_393,w_1179,h_977/fill/w_403,h_334,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_0430_heic.png"
                                             className="h-8 w-8 rounded-full bg-gray-50"
                                         />
                                         <span className="hidden lg:flex lg:items-center">
                                             <span aria-hidden="true" className="ml-4 text-sm font-semibold leading-6 text-gray-900">
-                                                Tom Cook
+                                                Adam Syed
                                             </span>
                                             <ChevronDownIcon aria-hidden="true" className="ml-2 h-5 w-5 text-gray-400" />
                                         </span>
