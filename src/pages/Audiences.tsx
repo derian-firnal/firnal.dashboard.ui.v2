@@ -30,10 +30,11 @@ export default function AudiencesPage() {
                             onChange={setSelectedAudience}
                         />
                     }
+                    highlight
                 />
                 <StatCard title="Audience Size" value="44" highlight />
-                <StatCard title="Appended Records Found" value="2,254" />
-                <StatCard title="Average Income" value="$89,451" />
+                <StatCard title="Appended Records Found" value="2,254" highlight/>
+                <StatCard title="Average Income" value="$89,451" highlight/>
             </div>
 
             {/* Charts */}
