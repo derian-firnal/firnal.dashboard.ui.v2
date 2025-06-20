@@ -27,7 +27,18 @@ const audienceService = {
   getUniqueRecordsCount: async () => {
     const response = await IAxiosService.get("audience/getUniqueRecordsCount");
     return response.data;
+  },
+
+  getAudiences: async () => {
+    const response = await IAxiosService.get("audience/getAudiences");
+    return response.data;
+  },
+
+  getAverageIncome: async (uploadId: number) => {
+    const response = await IAxiosService.get(`audience/getAverageIncomeForUpload/${uploadId}`);
+    return response.data;
   }
+
 };
 
 export default audienceService;
