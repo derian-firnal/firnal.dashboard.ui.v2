@@ -75,10 +75,10 @@ const [averageIncome, setAverageIncome] = useState<number | null>(null);
 
             {/* Charts */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-                <GenderVariance />
-                <AgeDistribution />
-                <AudienceConcentration />
-                <IncomeDistribution />
+                <GenderVariance uploadId={selectedAudience?.id} />
+                <AgeDistribution uploadId={selectedAudience?.id} />
+                <AudienceConcentration uploadId={selectedAudience?.id} />
+                <IncomeDistribution uploadId={selectedAudience?.id} />
             </div>
 
             {/* ICP Cards */}
@@ -87,7 +87,7 @@ const [averageIncome, setAverageIncome] = useState<number | null>(null);
             {/* Table */}
             <div>
                 <h2 className="text-lg font-semibold mt-6 mb-2">Appended Sample Data</h2>
-                <SampleDataTable />
+                <SampleDataTable uploadId={selectedAudience?.id} />
             </div>
         </div>
     );
