@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { Switch } from "@headlessui/react";
 import { BsChevronDown } from "react-icons/bs";
+import { getSolomonSearchResults } from "../services/B2BSearchService";
 
 const personalFields = [
   "Is Married", "Has Children", "Home Owner", "First Name", "Last Name", "Gender", "Age Range",
@@ -70,33 +71,6 @@ export default function SearchB2B() {
     }));
   };
 
-const FilterBlock = ({ label, section, valueInclude, valueExclude, onChange }) => {
-  return (
-    <div className="rounded-lg w-full max-w-xs bg-white shadow-sm border border-gray-200">
-      <div className="flex justify-between items-center bg-[#7c5eff] text-white px-3 py-2 rounded-t-lg">
-        <span className="text-sm font-medium">{label}</span>
-      </div>
-      <div className="flex flex-col gap-2 px-3 py-3">
-        <input
-          type="text"
-          value={valueInclude}
-          className="w-full p-2 border border-gray-300 rounded bg-white placeholder-gray-400 text-sm"
-          placeholder="Include"
-          onChange={(e) => onChange(section, label, "Include", e.target.value)}
-        />
-        <input
-          type="text"
-          value={valueExclude}
-          className="w-full p-2 border border-gray-300 rounded bg-white placeholder-gray-400 text-sm"
-          placeholder="Exclude"
-          onChange={(e) => onChange(section, label, "Exclude", e.target.value)}
-        />
-      </div>
-    </div>
-  );
-};
-
-
   const ToggleBlock = ({ label }) => (
     <div className="flex items-center justify-between bg-[#7c5eff] px-5 py-3 rounded-full text-white w-full max-w-xs shadow-sm">
       <span className="text-sm font-medium">{label}</span>
@@ -116,10 +90,9 @@ const FilterBlock = ({ label, section, valueInclude, valueExclude, onChange }) =
     </div>
   );
 
-  const renderSection = (title, sectionKey, fields, toggleState, setToggleState, bgColor, textColor) => {
+const renderSection = (title, sectionKey, fields, toggleState, setToggleState, bgColor, textColor) => {
   return (
     <div className="mb-6 bg-white rounded-xl shadow-sm">
-      {/* Collapsible Header */}
       <button
         onClick={() => setToggleState(!toggleState)}
         className="w-full flex justify-between items-center px-4 py-3 border-b border-gray-200 rounded-t-xl"
@@ -129,28 +102,20 @@ const FilterBlock = ({ label, section, valueInclude, valueExclude, onChange }) =
           {title}
         </h2>
         <BsChevronDown
-          className={`transition-transform ${
-            toggleState ? "rotate-180" : ""
-          }`}
+          className={`transition-transform ${toggleState ? "rotate-180" : ""}`}
           style={{ color: textColor }}
         />
       </button>
 
-      {/* Collapsible Content */}
       {toggleState && (
         <div className="p-4 flex flex-col gap-4">
-          {/* Separate Toggle Row for personalInfo */}
           {sectionKey === "personalInfo" && (
             <div className="flex gap-4 flex-wrap">
-              {fields
-                .filter((f) => isToggleField(f))
-                .map((field) => (
-                  <ToggleBlock key={field} label={field} />
-                ))}
+              {fields.filter(isToggleField).map((field) => (
+                <ToggleBlock key={field} label={field} />
+              ))}
             </div>
           )}
-
-          {/* Remaining filter cards */}
           <div className="flex flex-wrap gap-4">
             {fields
               .filter((f) => sectionKey !== "personalInfo" || !isToggleField(f))
@@ -173,21 +138,46 @@ const FilterBlock = ({ label, section, valueInclude, valueExclude, onChange }) =
                     </div>
                   );
                 }
+
                 const includeKey = `Include_${field.replace(/\s+/g, "")}`;
                 const excludeKey = `Exclude_${field.replace(/\s+/g, "")}`;
-
-                const valueInclude = formData[sectionKey]?.[includeKey] || "";
-                const valueExclude =formData[sectionKey]?.[excludeKey] || "";
+                const includeVal = formData[sectionKey]?.[includeKey] || "";
+                const excludeVal = formData[sectionKey]?.[excludeKey] || "";
 
                 return (
-                  <FilterBlock
-                    key={`${sectionKey}-${field}`}
-                    label={field}
-                    section={sectionKey}
-                    valueInclude={valueInclude}
-                    valueExclude={valueExclude}
-                    onChange={handleInputChange}
-                  />
+                  <div
+                    key={field}
+                    className="rounded-lg w-full max-w-xs bg-white shadow-sm border border-gray-200"
+                  >
+                    <div className="flex justify-between items-center bg-[#7c5eff] text-white px-3 py-2 rounded-t-lg">
+                      <span className="text-sm font-medium">{field}</span>
+                      <input
+                        type="checkbox"
+                        className="form-checkbox h-4 w-4 text-white bg-white border-white rounded focus:ring-white"
+                      // Optional: controlled checkbox if needed
+                      // checked={formData[sectionKey]?.[`Checked_${field.replace(/\s+/g, "")}`] || false}
+                      // onChange={(e) =>
+                      //   handleInputChange(sectionKey, field, "Checked", e.target.checked)
+                      // }
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2 px-3 py-3">
+                      <input
+                        type="text"
+                        value={includeVal}
+                        placeholder="Include"
+                        onChange={(e) => handleInputChange(sectionKey, field, "Include", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded bg-white placeholder-gray-400 text-sm"
+                      />
+                      <input
+                        type="text"
+                        value={excludeVal}
+                        placeholder="Exclude"
+                        onChange={(e) => handleInputChange(sectionKey, field, "Exclude", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded bg-white placeholder-gray-400 text-sm"
+                      />
+                    </div>
+                  </div>
                 );
               })}
           </div>
@@ -198,13 +188,14 @@ const FilterBlock = ({ label, section, valueInclude, valueExclude, onChange }) =
 };
 
 
+
   return (
     <div className="p-6 space-y-6 bg-[#f0f4f8] text-gray-900 min-h-screen">
       <h1 className="text-2xl font-semibold">Search B2B</h1>
 
+      {renderSection("Personal Information", "personalInfo", personalFields, showPersonal, setShowPersonal, "#f3e8ff", "#5b2da3")}
       {renderSection("Company Information", "companyInfo", companyFields, showCompany, setShowCompany, "#ede9fe", "#4b2996")}
       {renderSection("Professional Information", "professionalInfo", professionalFields, showProfessional, setShowProfessional, "#e6e1ff", "#4a2b9b")}
-      {renderSection("Personal Information", "personalInfo", personalFields, showPersonal, setShowPersonal, "#f3e8ff", "#5b2da3")}
 
       <div className="fixed bottom-6 right-6 z-50 flex gap-3">
         <button 
@@ -214,8 +205,8 @@ const FilterBlock = ({ label, section, valueInclude, valueExclude, onChange }) =
           Clear Filters
         </button>
         <button 
-          onClick={() => handleSearch(false)}
-          className="bg-[#7c5eff] text-white px-5 py-2 rounded-full shadow-md hover:bg-[#6a4de0]"
+          onClick={handleSearch}
+          className="z-[9999] bg-[#7c5eff] text-white px-5 py-2 rounded-full shadow-md hover:bg-[#6a4de0]"
         >
           Search
         </button>
