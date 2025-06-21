@@ -19,6 +19,7 @@ import Team from "../pages/Team"
 import Table from "../pages/Table"
 import NotFound from "../pages/NotFound"
 import Calendar from "../pages/Calendar"
+import SearchB2BPage from "../pages/SearchB2B"
 // import Student from '../features/students/Student';  
 // import Teacher from '../features/staffs/Teacher';  
 
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
                     {
                         path: 'audiences',
                         element: <AudiencesPage />
+                    },
+                    {
+                        path: 'searchb2b',
+                        element: <SearchB2BPage />
                     },
                     {
                         path: 'products',

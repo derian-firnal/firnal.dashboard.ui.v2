@@ -55,7 +55,8 @@ const navigation = [
     { name: 'Dashboard', href: '/', icon: AiOutlineDashboard, current: false },
     { name: 'Audiences', href: '/Audiences', icon: AiOutlineDashboard, current: false },
     { name: 'Customer Profile', href: '/customerProfile', icon: AiOutlineDashboard, current: false },
-    { name: 'Search Audiences', href: '/searchAudiences', icon: AiOutlineDashboard, current: false },
+    { name: 'Search B2B', href: '/searchB2B', icon: AiOutlineDashboard, current: false },
+    { name: 'Search B2C', href: '/searchB2C', icon: AiOutlineDashboard, current: false },
     { name: 'Intent Feed', href: '/intentFeed', icon: AiOutlineDashboard, current: false },
     // { name: 'Products', href: '/products', icon: PiGridFour, current: false },
     // { name: 'Favorites', href: '/favorites', icon: LiaHeart, current: false },
@@ -64,7 +65,7 @@ const navigation = [
     // { name: 'Products Stock', href: '/product-stock', icon: PiSquareSplitVerticalBold, current: false },
 ]
 const pages = [
-    { id: 1, name: 'Pricing', href: '/pricing', icon: LiaGiftSolid, current: false },
+    { id: 1, name: 'Billing', href: '/billing', icon: LiaGiftSolid, current: false },
     // { id: 2, name: 'Calendar', href: '/calendar', icon: LiaCalendar, current: false },
     // { id: 3, name: 'To-Do', href: '/todo', icon: LiaClipboard, current: false },
     // { id: 4, name: 'Contact', href: '/contact', icon: LiaUserFriendsSolid, current: false },
@@ -78,7 +79,7 @@ const bottomNavigation = [
     { name: 'Logout', href: '#', icon: LiaPowerOffSolid, current: false },
 ]
 const userNavigation = [
-    { name: 'Your profile', href: '#' },
+    { name: 'Profile', href: '#' },
     { name: 'Sign out', href: '#' },
 ]
 
