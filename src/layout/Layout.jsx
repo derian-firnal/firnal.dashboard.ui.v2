@@ -1,18 +1,4 @@
 /* eslint-disable no-unused-vars */
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 'use client'
 
 import { useState } from 'react'
@@ -50,10 +36,12 @@ import { PiSquareSplitVerticalBold } from "react-icons/pi";
 import SearchBar from '../components/SearchBar';
 import NavDrawer from '../ui/NavDrawer';
 import AppLogo from '../assets/images/firnal_logo.png'
+import { logoutUser } from '../services/AuthService';
+import { useNavigate } from 'react-router-dom';
 
 const navigation = [
     { name: 'Dashboard', href: '/', icon: AiOutlineDashboard, current: false },
-    { name: 'Audiences', href: '/Audiences', icon: AiOutlineDashboard, current: false },
+    { name: 'Audiences', href: '/audiences', icon: AiOutlineDashboard, current: false },
     { name: 'Customer Profile', href: '/customerProfile', icon: AiOutlineDashboard, current: false },
     { name: 'Search B2B', href: '/searchB2B', icon: AiOutlineDashboard, current: false },
     { name: 'Search B2C', href: '/searchB2C', icon: AiOutlineDashboard, current: false },
@@ -78,19 +66,31 @@ const bottomNavigation = [
     { name: 'Settings', href: '#', icon: LiaCogSolid, current: false },
     { name: 'Logout', href: '#', icon: LiaPowerOffSolid, current: false },
 ]
-const userNavigation = [
-    { name: 'Profile', href: '#' },
-    { name: 'Sign out', href: '#' },
-]
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function Layout() {
+    const navigate = useNavigate();
+
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [shrinkSidebar, setShrinkSidebar] = useState(false)
     const location = useLocation()
+
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+    const userEmail = loggedInUser?.email || "User";
+
+    const handleLogout = () => {
+        console.log('logging out user')
+        logoutUser();
+        navigate('/login');
+    };
+
+    const userNavigation = [
+        { name: 'Profile', href: '#' },
+        { name: 'Sign out', onClick: handleLogout },
+    ]
 
     return (
         <>
@@ -357,14 +357,12 @@ export default function Layout() {
                                 <Menu as="div" className="relative">
                                     <MenuButton className="-m-1.5 flex items-center p-1.5">
                                         <span className="sr-only">Open user menu</span>
-                                        <img
-                                            alt=""
-                                            src="https://static.wixstatic.com/media/01b8c6_55106b2deb9e439a9fcb7e6140605822~mv2.png/v1/crop/x_0,y_393,w_1179,h_977/fill/w_403,h_334,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_0430_heic.png"
-                                            className="h-8 w-8 rounded-full bg-gray-50"
-                                        />
+                                        <div className="h-8 w-8 rounded-full bg-brand-primary-blue flex items-center justify-center text-white font-semibold uppercase">
+                                            {userEmail.charAt(0)}
+                                        </div>
                                         <span className="hidden lg:flex lg:items-center">
                                             <span aria-hidden="true" className="ml-4 text-sm font-semibold leading-6 text-gray-900">
-                                                Adam Syed
+                                                {userEmail}
                                             </span>
                                             <ChevronDownIcon aria-hidden="true" className="ml-2 h-5 w-5 text-gray-400" />
                                         </span>
@@ -375,12 +373,21 @@ export default function Layout() {
                                     >
                                         {userNavigation.map((item) => (
                                             <MenuItem key={item.name}>
-                                                <a
-                                                    href={item.href}
-                                                    className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50"
-                                                >
-                                                    {item.name}
-                                                </a>
+                                                {item.onClick ? (
+                                                    <button
+                                                        onClick={item.onClick}
+                                                        className="block w-full text-left px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50"
+                                                    >
+                                                        {item.name}
+                                                    </button>
+                                                ) : (
+                                                    <a
+                                                        href={item.href}
+                                                        className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50"
+                                                    >
+                                                        {item.name}
+                                                    </a>
+                                                )}
                                             </MenuItem>
                                         ))}
                                     </MenuItems>

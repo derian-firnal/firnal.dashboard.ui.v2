@@ -1,8 +1,8 @@
 // routes/AppRoutes.jsx  
-import { createBrowserRouter, Outlet } from "react-router-dom"
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom"
 import Layout from "../layout/Layout"
 import PrivateRoutes from '../components/PrivateRoutes'
-import Login from '../pages/Login'
+import Login from "../pages/Login"
 import SignUp from '../pages/SignUp'
 import Dashboard from '../pages/Dashboard'
 import AudiencesPage from "../pages/Audiences"
@@ -27,6 +27,10 @@ import CustomerProfile from "../pages/CustomerProfile"
 
 const router = createBrowserRouter([
     {
+        path: '/',
+        element: <Navigate to="/dashboard" replace /> // ⬅️ Redirect root to /login
+    },
+    {
         path: '/login',
         element: <Login />
     },
@@ -35,15 +39,17 @@ const router = createBrowserRouter([
         element: <SignUp />
     },
     {
-        path: '/*',
-        element: <NotFound />
-    },
-    {
+        // path: '/dashboard',
+        // element: <Layout><Outlet /></Layout>,
         path: '/',
-        element: <Layout><Outlet /></Layout>,
+        element: (
+            <PrivateRoutes>
+                <Layout />
+            </PrivateRoutes>
+        ),
         children: [
             {
-                element: <PrivateRoutes />,
+                // element: <PrivateRoutes />,
                 children: [
                     {
                         index: true,
@@ -116,6 +122,10 @@ const router = createBrowserRouter([
                 ]
             },
         ]
+    },
+    {
+        path: '/*',
+        element: <NotFound />
     },
 ]);
 
