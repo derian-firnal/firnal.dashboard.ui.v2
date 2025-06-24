@@ -14,7 +14,7 @@ export default function IntentSearch() {
       setSrc(`https://ldww.tag4.org/`);
     }
     else {
-      setSrc(`https://firnal.tag4.org/`);
+      setSrc(`https://firnalorg.tag4.org/`);
     }
   }, []);
 
