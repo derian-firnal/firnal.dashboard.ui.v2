@@ -11,10 +11,10 @@ export default function IntentSearch() {
     const user = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
     console.log('user', user)
     if (user?.email.includes("legacyplus")) {
-      setSrc(`https://ldww.tag4.org/`);
+      setSrc(`https://ldww.tag4.org/search`);
     }
     else {
-      setSrc(`https://firnalorg.tag4.org/`);
+      setSrc(`https://firnalorg.tag4.org/search`);
     }
   }, []);
 
