@@ -10,7 +10,7 @@ export default function IntentSearch() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
     console.log('user', user)
-    if (user?.email.includes("legacyplus")) {
+    if (user?.email?.toLowerCase().includes("ldww.co")) {
       setSrc(`https://ldww.tag4.org/search`);
     }
     else {
