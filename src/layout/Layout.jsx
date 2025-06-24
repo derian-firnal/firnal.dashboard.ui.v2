@@ -45,7 +45,7 @@ const navigation = [
     { name: 'Search B2B', href: '/searchB2B', icon: AiOutlineDashboard, current: false },
     { name: 'Intent Search', href: '/intentSearch', icon: AiOutlineDashboard, current: false },
     { name: 'Search B2C', href: '/searchB2C', icon: AiOutlineDashboard, current: false },
-    { name: 'Intent Feed', href: '/intentFeed', icon: AiOutlineDashboard, current: false },
+    // { name: 'Intent Feed', href: '/intentFeed', icon: AiOutlineDashboard, current: false },
     // { name: 'Products', href: '/products', icon: PiGridFour, current: false },
     // { name: 'Favorites', href: '/favorites', icon: LiaHeart, current: false },
     // { name: 'Inbox', href: '/inbox', icon: HiOutlineChatAlt2, current: false },
@@ -63,8 +63,8 @@ const pages = [
     // { id: 8, name: 'Table', href: '/table', icon: LiaTableSolid, current: false },
 ]
 const bottomNavigation = [
-    { name: 'Settings', href: '#', icon: LiaCogSolid, current: false },
-    { name: 'Logout', href: '#', icon: LiaPowerOffSolid, current: false },
+    { name: 'Settings', href: '/settings', icon: LiaCogSolid, current: false },
+    // { name: 'Logout', href: '#', icon: LiaPowerOffSolid, current: false },
 ]
 
 function classNames(...classes) {
