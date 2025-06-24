@@ -1,4 +1,4 @@
-export default function SearchB2B() {
+export default function IntentSearch() {
   const handleContextMenu = (e) => {
     e.preventDefault();
   };

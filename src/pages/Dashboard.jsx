@@ -19,6 +19,11 @@ import TablePagination from '../components/TablePagination';
 import AudienceStatusPopup from "../components/AudienceStatusPopup";
 import UploadAudiencePopup from "../components/UploadAudiencePopup";
 import audienceService from "../services/AudienceService";
+import DashboardTile from "../components/DashboardTile";
+import { BiBarChartAlt2 } from "react-icons/bi";
+import { GiBrain, GiArcheryTarget } from "react-icons/gi";
+import { FaPuzzlePiece } from "react-icons/fa6"; // more modern look
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [statusPopupOpen, setStatusPopupOpen] = useState(false);
@@ -27,6 +32,8 @@ const Dashboard = () => {
   const [audienceRows, setAudienceRows] = useState([]);
   const [fileCount, setFileCount] = useState([]);
   const [dashboardStats, setDashboardStats] = useState([]);
+
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -127,17 +134,25 @@ const Dashboard = () => {
     <div className="p-6 space-y-6 text-gray-900 min-h-screen">
       <PagesTitle />
 
-      {dashboardStats.length > 0 && (
+      {/* {dashboardStats.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mt-5">
           {dashboardStats.map((stat, index) => (
             <DashboardStat key={index} stat={stat} />
           ))}
         </div>
-      )}
+      )} */}
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-5 mt-8">
+            <DashboardTile icon={<BiBarChartAlt2 className="text-[#6D6DFA]" />} label="View Insights" onClick={() => navigate('/audiences')} />
+            <DashboardTile icon={<GiBrain className="text-[#F472B6]" />} label="Build Your ICP" onClick={() => navigate('/buildIcp')} />
+            <DashboardTile icon={<GiArcheryTarget className="text-[#FB923C]" />} label="Search for intent" />
+            <DashboardTile icon={<HiMiniUsers className="text-[#60A5FA]" />} label="Search Businesses" />
+            <DashboardTile icon={<FaPuzzlePiece className="text-[#34D399]" />} label="Enrich Audiences" />
+
+
+
         {/* Ideal Customer Profile */}
-        <div className="rounded-2xl shadow-md flex overflow-hidden h-24 bg-white text-gray-900">
+        {/* <div className="rounded-2xl shadow-md flex overflow-hidden h-24 bg-white text-gray-900">
           <div className="flex-1 p-4 flex flex-col justify-center">
             <h3 className="text-base font-semibold">Ideal Customer Profile</h3>
             <p className="text-sm text-gray-600">
@@ -147,10 +162,10 @@ const Dashboard = () => {
           <button className="w-32 bg-[#6D6DFA] text-white font-semibold text-sm hover:bg-[#8181ff] transition">
             Build ICP
           </button>
-        </div>
+        </div> */}
 
         {/* Find Similar Audiences */}
-        <div className="rounded-2xl shadow-md flex overflow-hidden h-24 bg-white text-gray-900">
+        {/* <div className="rounded-2xl shadow-md flex overflow-hidden h-24 bg-white text-gray-900">
           <div className="flex-1 p-4 flex flex-col justify-center">
             <h3 className="text-base font-semibold">Find Similar Audiences</h3>
             <p className="text-sm text-gray-600">
@@ -160,7 +175,7 @@ const Dashboard = () => {
           <button className="w-32 bg-[#6D6DFA] text-white font-semibold text-sm hover:bg-[#8181ff] transition">
             Search
           </button>
-        </div>
+        </div> */}
       </div>
 
 

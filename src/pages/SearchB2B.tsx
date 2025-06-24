@@ -23,7 +23,7 @@ const employeeOptions = [
   "251-500", "501-1k", "1k-5k", "5k-10k", "10k+"
 ];
 
-export default function CustomerProfile() {
+export default function SearchB2B() {
   const [formData, setFormData] = useState({});
   const [employeeModalOpen, setEmployeeModalOpen] = useState(false);
   const [employeeCounts, setEmployeeCounts] = useState(["1-10", "10-25", "26-50"]);

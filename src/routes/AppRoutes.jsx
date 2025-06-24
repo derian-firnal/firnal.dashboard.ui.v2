@@ -20,7 +20,7 @@ import Table from "../pages/Table"
 import NotFound from "../pages/NotFound"
 import Calendar from "../pages/Calendar"
 import SearchB2BPage from "../pages/SearchB2B"
-import CustomerProfile from "../pages/CustomerProfile"
+import IntentSearch from "../pages/IntentSearch"
 
 // import Student from '../features/students/Student';  
 // import Teacher from '../features/staffs/Teacher';  
@@ -60,12 +60,12 @@ const router = createBrowserRouter([
                         element: <AudiencesPage />
                     },
                     {
-                        path: 'customerProfile',
-                        element: <CustomerProfile />
-                    },
-                    {
                         path: 'searchb2b',
                         element: <SearchB2BPage />
+                    },
+                    {
+                        path: 'intentSearch',
+                        element: <IntentSearch />
                     },
                     {
                         path: 'products',

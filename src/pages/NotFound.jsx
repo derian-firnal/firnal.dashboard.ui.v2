@@ -34,7 +34,7 @@ export default function NotFound() {
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
             <img src={NotFoundImage} alt="Not found" className='mb-20' />
             <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 mb-5">
-              Looks like you’ve got lost….
+              This Feature Is Coming Soon
             </h2>
             <Link
               href="/"

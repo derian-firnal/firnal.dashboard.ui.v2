@@ -82,7 +82,35 @@ const [averageIncome, setAverageIncome] = useState<number | null>(null);
             </div>
 
             {/* ICP Cards */}
-            <ICPPreview />
+            {/* <ICPPreview /> */}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
+                {/* Ideal Customer Profile */}
+                <div className="mt-4 rounded-2xl shadow-md flex overflow-hidden h-24 bg-white text-gray-900 w-full">
+                    <div className="flex-1 p-4 flex flex-col justify-center">
+                        <h3 className="text-base font-semibold">Ideal Customer Profile</h3>
+                        <p className="text-sm text-gray-600">
+                            Based on your highest aligned traits, discover your ideal customer profile.
+                        </p>
+                    </div>
+                    <button className="w-32 bg-[#6D6DFA] text-white font-semibold text-sm hover:bg-[#8181ff] transition">
+                        Coming Soon
+                    </button>
+                </div>
+
+                {/* Find Similar Audiences */}
+                <div className="mt-4 rounded-2xl shadow-md flex overflow-hidden h-24 bg-white text-gray-900 w-full">
+                    <div className="flex-1 p-4 flex flex-col justify-center">
+                        <h3 className="text-base font-semibold">Enrich Audience List</h3>
+                        <p className="text-sm text-gray-600">
+                            Based on your highest aligned traits, discover your ideal customer profile.
+                        </p>
+                    </div>
+                    <button className="w-32 bg-[#6D6DFA] text-white font-semibold text-sm hover:bg-[#8181ff] transition">
+                        Search
+                    </button>
+                </div>
+            </div>
 
             {/* Table */}
             <div>

@@ -42,8 +42,8 @@ import { useNavigate } from 'react-router-dom';
 const navigation = [
     { name: 'Dashboard', href: '/', icon: AiOutlineDashboard, current: false },
     { name: 'Audiences', href: '/audiences', icon: AiOutlineDashboard, current: false },
-    { name: 'Customer Profile', href: '/customerProfile', icon: AiOutlineDashboard, current: false },
     { name: 'Search B2B', href: '/searchB2B', icon: AiOutlineDashboard, current: false },
+    { name: 'Intent Search', href: '/intentSearch', icon: AiOutlineDashboard, current: false },
     { name: 'Search B2C', href: '/searchB2C', icon: AiOutlineDashboard, current: false },
     { name: 'Intent Feed', href: '/intentFeed', icon: AiOutlineDashboard, current: false },
     // { name: 'Products', href: '/products', icon: PiGridFour, current: false },
