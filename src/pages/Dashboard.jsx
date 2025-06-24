@@ -145,9 +145,9 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-5 mt-8">
             <DashboardTile icon={<BiBarChartAlt2 className="text-[#6D6DFA]" />} label="View Insights" onClick={() => navigate('/audiences')} />
             <DashboardTile icon={<GiBrain className="text-[#F472B6]" />} label="Build Your ICP" onClick={() => navigate('/buildIcp')} />
-            <DashboardTile icon={<GiArcheryTarget className="text-[#FB923C]" />} label="Search for intent" />
-            <DashboardTile icon={<HiMiniUsers className="text-[#60A5FA]" />} label="Search Businesses" />
-            <DashboardTile icon={<FaPuzzlePiece className="text-[#34D399]" />} label="Enrich Audiences" />
+            <DashboardTile icon={<GiArcheryTarget className="text-[#FB923C]" />} label="Search for intent" onClick={() => navigate('/intentSearch')} />
+            <DashboardTile icon={<HiMiniUsers className="text-[#60A5FA]" />} label="Search Businesses" onClick={() => navigate('/searchB2B')} />
+            <DashboardTile icon={<FaPuzzlePiece className="text-[#34D399]" />} label="Enrich Audiences" onClick={() => navigate('/audiences')} />
 
 
 
