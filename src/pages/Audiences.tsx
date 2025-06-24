@@ -14,7 +14,7 @@ import audienceService from "../services/AudienceService";
 export default function AudiencesPage() {
     const [audiences, setAudiences] = useState<any[]>([]);
     const [selectedAudience, setSelectedAudience] = useState<any>(null);
-const [averageIncome, setAverageIncome] = useState<number | null>(null);
+    const [averageIncome, setAverageIncome] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchAudiences = async () => {

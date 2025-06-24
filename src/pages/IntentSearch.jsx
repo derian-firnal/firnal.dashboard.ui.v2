@@ -1,12 +1,27 @@
+import { useState, useEffect } from "react";
+
 export default function IntentSearch() {
   const handleContextMenu = (e) => {
     e.preventDefault();
   };
 
+  const [src, setSrc] = useState("https://ldww.tag4.org/");
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+    console.log('user', user)
+    if (user?.email.includes("legacyplus")) {
+      setSrc(`https://ldww.tag4.org/`);
+    }
+    else {
+      setSrc(`https://firnal.tag4.org/`);
+    }
+  }, []);
+
   return (
     <div className="relative w-full h-screen" onContextMenu={handleContextMenu}>
       <iframe
-        src="https://ldww.tag4.org/"
+        src={src}
         className="w-full h-full"
         title="Snapshot"
       />
