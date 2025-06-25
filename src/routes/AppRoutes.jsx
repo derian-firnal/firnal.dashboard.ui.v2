@@ -21,6 +21,8 @@ import NotFound from "../pages/NotFound"
 import Calendar from "../pages/Calendar"
 import SearchB2BPage from "../pages/SearchB2B"
 import IntentSearch from "../pages/IntentSearch"
+import AudienceDetailPage from "../pages/AudienceDetail"
+
 
 // import Student from '../features/students/Student';  
 // import Teacher from '../features/staffs/Teacher';  
@@ -58,6 +60,10 @@ const router = createBrowserRouter([
                     {
                         path: 'audiences',
                         element: <AudiencesPage />
+                    },
+                    {
+                        path: 'audienceDetail',
+                        element: <AudienceDetailPage />
                     },
                     {
                         path: 'searchb2b',

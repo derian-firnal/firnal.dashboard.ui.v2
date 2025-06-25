@@ -4,9 +4,9 @@ const PagesTitle = () => {
     const location = useLocation();
 
     const currentPage = location.pathname.split('/')[1] || 'dashboard'; // Default to 'dashboard'  
-
     const pageTitlesMap = {
         'dashboard': 'dashboard',
+        'audiences': 'roster',
         'products': 'products',
         'favorites': 'favorites',
         'inbox': 'inbox',

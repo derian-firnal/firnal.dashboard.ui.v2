@@ -11,13 +11,14 @@ import StatCard from "../components/audience/StatCard";
 import audienceService from "../services/AudienceService";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export default function AudiencesPage() {
+export default function AudienceDetailPage() {
     const [audiences, setAudiences] = useState<any[]>([]);
     const [selectedAudience, setSelectedAudience] = useState<any>(null);
     const [averageIncome, setAverageIncome] = useState<number | null>(null);
     const location = useLocation();
     const navigate = useNavigate();
     const [hasInitialized, setHasInitialized] = useState(false);
+    const [isDropdownDisabled, setIsDropdownDisabled] = useState(false);
 
     useEffect(() => {
         const fetchAudiences = async () => {
@@ -29,27 +30,29 @@ export default function AudiencesPage() {
                     const preselectedFile = location.state?.fileName;
                     if (preselectedFile) {
                         const matched = data.find((a) => a.fileName === preselectedFile);
-                        if (matched) {
-                            setSelectedAudience(matched);
-                        } else {
-                            setSelectedAudience(data[0]);
-                        }
-
-                        // Clear state and mark init complete
-                        navigate("/audiences", { replace: true });
+                        setSelectedAudience(matched || data[0]);
                     } else {
                         setSelectedAudience(data[0]);
                     }
 
                     setHasInitialized(true);
                 }
+                setIsDropdownDisabled(true);
             } catch (error) {
                 console.error("Failed to fetch audiences", error);
             }
         };
 
         fetchAudiences();
-    }, [location.state, navigate, hasInitialized]);
+    }, [location.state, hasInitialized]);
+
+    // NEW: Clear fileName from history after first load
+    useEffect(() => {
+        if (hasInitialized && location.state?.fileName) {
+            navigate("/audienceDetail", { replace: true, state: {} });
+        }
+    }, [hasInitialized, location.state, navigate]);
+
 
 
     useEffect(() => {
@@ -71,12 +74,12 @@ export default function AudiencesPage() {
 
     return (
         <div className="p-6 space-y-6 text-gray-900 min-h-screen">
-            <h1 className="text-2xl font-semibold">Audiences</h1>
+            <h1 className="text-2xl font-semibold">Audiences - {selectedAudience?.fileName}</h1>
 
             {/* Stats Row */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
                 <StatCard
-                    title="Toggle Selected Audiences"
+                    title="Selected Audience"
                     value={
                         <AudienceSelector
                             options={audiences.map((a) => a.fileName)}
@@ -84,6 +87,7 @@ export default function AudiencesPage() {
                             onChange={(name) =>
                                 setSelectedAudience(audiences.find((a) => a.fileName === name))
                             }
+                            disabled={isDropdownDisabled}
                         />
                     }
                 />
