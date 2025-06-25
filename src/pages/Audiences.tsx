@@ -7,28 +7,50 @@ import AudienceConcentration from "../components/audience/AudienceConcentration"
 import IncomeDistribution from "../components/audience/IncomeDistribution";
 import SampleDataTable from "../components/tables/SamleDataTable";
 import AudienceSelector from "../components/audience/AudienceSelector";
-import ICPPreview from "../components/audience/IcpPreview";
 import StatCard from "../components/audience/StatCard";
 import audienceService from "../services/AudienceService";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function AudiencesPage() {
     const [audiences, setAudiences] = useState<any[]>([]);
     const [selectedAudience, setSelectedAudience] = useState<any>(null);
     const [averageIncome, setAverageIncome] = useState<number | null>(null);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [hasInitialized, setHasInitialized] = useState(false);
 
     useEffect(() => {
         const fetchAudiences = async () => {
             try {
                 const data = await audienceService.getAudiences();
                 setAudiences(data);
-                if (data.length > 0) setSelectedAudience(data[0]);
+
+                if (!hasInitialized) {
+                    const preselectedFile = location.state?.fileName;
+                    if (preselectedFile) {
+                        const matched = data.find((a) => a.fileName === preselectedFile);
+                        if (matched) {
+                            setSelectedAudience(matched);
+                        } else {
+                            setSelectedAudience(data[0]);
+                        }
+
+                        // Clear state and mark init complete
+                        navigate("/audiences", { replace: true });
+                    } else {
+                        setSelectedAudience(data[0]);
+                    }
+
+                    setHasInitialized(true);
+                }
             } catch (error) {
                 console.error("Failed to fetch audiences", error);
             }
         };
 
         fetchAudiences();
-    }, []);
+    }, [location.state, navigate, hasInitialized]);
+
 
     useEffect(() => {
         const fetchAverageIncome = async () => {

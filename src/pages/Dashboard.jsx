@@ -27,7 +27,6 @@ import { useNavigate } from "react-router-dom";
 import AudienceTable from "../components/tables/AudienceTable";
 
 const Dashboard = () => {
-  const [statusPopupOpen, setStatusPopupOpen] = useState(false);
   const [uploadPopupOpen, setUploadPopupOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [audienceRows, setAudienceRows] = useState([]);
@@ -167,13 +166,7 @@ const Dashboard = () => {
   };
 
   const handleRowClick = (row) => {
-    setSelectedRow(row);
-    setStatusPopupOpen(true);
-  };
-
-  const handleStatusSelect = (status) => {
-    console.log("Selected Status:", status);
-    // optional: send status to backend or update local state
+    navigate('/audiences', { state: { fileName: row.name } });
   };
 
   return (
@@ -214,18 +207,6 @@ const Dashboard = () => {
       <AudienceTable rows={audienceRows} rowsPerPage={5} onRowClick={handleRowClick} />
 
       <div className="mt-4 overflow-x-auto rounded-xl shadow-md bg-white">
-
-        {/* <div className="px-4">
-          <TablePagination />
-        </div> */}
-
-        {/* Audience Status Popup */}
-        <AudienceStatusPopup
-          open={statusPopupOpen}
-          onClose={() => setStatusPopupOpen(false)}
-          onSelect={handleStatusSelect}
-          initialStatus={selectedRow?.status || null}
-        />
 
         <UploadAudiencePopup
           open={uploadPopupOpen}
