@@ -60,13 +60,19 @@ const AudienceTable: React.FC<AudienceTableProps> = ({
                             <td className="px-4 py-3">{row.date}</td>
                             <td className="px-4 py-3">
                                 {row.isEnriched ? (
-                                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium text-white bg-[#7063F0]">
+                                    <span
+                                        onClick={(e) => e.stopPropagation()} // 👈 prevent row click
+                                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium text-white bg-[#7063F0]"
+                                    >
                                         Enriched
                                     </span>
                                 ) : enrichingIds?.includes(Number(row.id)) ? (
-                                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 animate-pulse">
-                                            Processing...
-                                        </span>
+                                    <span
+                                        onClick={(e) => e.stopPropagation()} // 👈 also block clicks during processing
+                                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 animate-pulse"
+                                    >
+                                        Processing...
+                                    </span>
                                 ) : (
                                     <button
                                         onClick={(e) => {
