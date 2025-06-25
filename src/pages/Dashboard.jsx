@@ -10,7 +10,7 @@ import DashboardTile from "../components/DashboardTile";
 import { BiBarChartAlt2 } from "react-icons/bi";
 import { GiBrain, GiArcheryTarget } from "react-icons/gi";
 import { FaPuzzlePiece } from "react-icons/fa6"; // more modern look
-import { useNavigate } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 import AudienceTable from "../components/tables/AudienceTable";
 
 const Dashboard = () => {
@@ -179,7 +179,11 @@ const Dashboard = () => {
     window.dispatchEvent(new CustomEvent("audienceSubmenuUpdated"));
 
     // Navigate
-    navigate('/audiences', { state: { fileName: row.name } });
+    // navigate('/audiences', { state: { fileName: row.name } });
+    navigate({
+      pathname: "/audienceDetail",
+      search: createSearchParams({ fileName: row.name }).toString(),
+    });
   };
 
 

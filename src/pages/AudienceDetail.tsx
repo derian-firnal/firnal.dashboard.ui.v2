@@ -10,6 +10,7 @@ import AudienceSelector from "../components/audience/AudienceSelector";
 import StatCard from "../components/audience/StatCard";
 import audienceService from "../services/AudienceService";
 import { useLocation, useNavigate } from "react-router-dom";
+import { HiOutlineArrowDownTray } from "react-icons/hi2";
 
 export default function AudienceDetailPage() {
     const [audiences, setAudiences] = useState<any[]>([]);
@@ -61,7 +62,27 @@ export default function AudienceDetailPage() {
 
     return (
         <div className="p-6 space-y-6 text-gray-900 min-h-screen">
-            <h1 className="text-2xl font-semibold">Audiences - {selectedAudience?.fileName}</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-semibold">Audiences - {selectedAudience?.fileName}</h1>
+                {selectedAudience && (
+                    <button
+                        onClick={async () => {
+                            try {
+                                await audienceService.downloadAudienceCsv(
+                                    selectedAudience.id.toString(),
+                                    selectedAudience.fileName
+                                );
+                            } catch (error) {
+                                console.error("Download failed", error);
+                            }
+                        }}
+                        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#7063F0] hover:bg-[#5b4fd1] rounded-lg transition"
+                    >
+                        Download CSV
+                        <HiOutlineArrowDownTray className="w-5 h-5" />
+                    </button>
+                )}
+            </div>
 
             {/* Stats Row */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
@@ -120,7 +141,7 @@ export default function AudienceDetailPage() {
                         </p>
                     </div>
                     <button className="w-32 bg-[#6D6DFA] text-white font-semibold text-sm hover:bg-[#8181ff] transition">
-                        Search
+                        Enrich
                     </button>
                 </div>
             </div>

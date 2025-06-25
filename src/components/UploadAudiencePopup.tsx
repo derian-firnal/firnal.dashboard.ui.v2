@@ -100,7 +100,12 @@ export default function UploadAudiencePopup({
 
         <p className="text-xs text-gray-300 mt-4">
           Only support <strong>.XLSX</strong> and <strong>.CSV</strong> files –
-          Need help? <span className="text-purple-300 underline cursor-pointer">Download sample data</span>
+          Need help? <span
+            className="text-purple-300 underline cursor-pointer"
+            onClick={audienceService.downloadSampleCsv}
+          >
+            Download sample data
+          </span>
         </p>
         <p className="text-xs mt-1 text-gray-300">
           *Dataset must include a phone number, zip, and email address field

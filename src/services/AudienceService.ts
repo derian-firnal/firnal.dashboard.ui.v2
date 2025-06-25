@@ -83,6 +83,22 @@ const audienceService = {
     link.click();
     link.remove();
     window.URL.revokeObjectURL(url);
+  },
+
+  downloadSampleCsv: async () => {
+    const response = await IAxiosService.get(`audience/GetSampleCsv`, {
+      responseType: "blob",
+    });
+
+    const blob = new Blob([response.data], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `sample_upload.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
   }
 
 };
