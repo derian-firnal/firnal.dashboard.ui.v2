@@ -1,6 +1,8 @@
 // components/AudienceTable.tsx
 import React, { useState } from "react";
 import { HiOutlineArrowRight } from "react-icons/hi";
+import { HiOutlineArrowDownTray } from "react-icons/hi2";
+import audienceService from "../../services/AudienceService";
 
 interface AudienceRow {
     id: string;
@@ -45,6 +47,7 @@ const AudienceTable: React.FC<AudienceTableProps> = ({
                         <th className="px-4 py-3">Date Uploaded</th>
                         <th className="px-4 py-3">Enrichment</th>
                         <th className="px-4 py-3">Status</th>
+                        <th className="px-4 py-3 w-px text-center">Download</th>
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -94,6 +97,22 @@ const AudienceTable: React.FC<AudienceTableProps> = ({
                                     }`}>
                                     {row.status}
                                 </span>
+                            </td>
+                            <td className="px-4 py-3 w-px text-center">
+                                <button
+                                    onClick={async (e) => {
+                                        e.stopPropagation();
+                                        try {
+                                            await audienceService.downloadAudienceCsv(row.id, row.name);
+                                        } catch (error) {
+                                            console.error(`Failed to download CSV for ID ${row.id}:`, error);
+                                        }
+                                    }}
+                                    className="text-gray-600 hover:text-gray-800"
+                                    title="Download"
+                                >
+                                    <HiOutlineArrowDownTray className="w-5 h-5" />
+                                </button>
                             </td>
                         </tr>
                     ))}

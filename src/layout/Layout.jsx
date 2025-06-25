@@ -43,21 +43,17 @@ const navigation = [
     { name: 'Audiences', href: '/audiences', icon: AiOutlineDashboard, current: false },
     { name: 'Search B2B', href: '/searchB2B', icon: AiOutlineDashboard, current: false },
     { name: 'Intent Search', href: '/intentSearch', icon: AiOutlineDashboard, current: false },
-    { name: 'Search B2C', href: '/searchB2C', icon: AiOutlineDashboard, current: false },
+    // { name: 'Search B2C', href: '/searchB2C', icon: AiOutlineDashboard, current: false },
 ]
 
 const pages = [
-    { id: 1, name: 'Billing', href: '/billing', icon: LiaGiftSolid, current: false },
+    { id: 1, name: 'Billing - Coming Soon', href: '/billing', icon: LiaGiftSolid, current: false },
 ]
 
 const bottomNavigation = [
-    { name: 'Settings', href: '/settings', icon: LiaCogSolid, current: false },
+    { name: 'Settings - Coming Soon', href: '/settings', icon: LiaCogSolid, current: false },
     { name: 'Feedback', href: '#', icon: LiaPowerOffSolid, current: false },
 ]
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
 
 export default function Layout() {
     const navigate = useNavigate();

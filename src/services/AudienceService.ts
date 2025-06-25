@@ -69,6 +69,22 @@ const audienceService = {
     return response.data;
   },
 
+  downloadAudienceCsv: async (uploadId: string, audienceName: string) => {
+    const response = await IAxiosService.get(`audience/DownloadAudience/${uploadId}`, {
+      responseType: "blob",
+    });
+
+    const blob = new Blob([response.data], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${audienceName}.csv`; // ✅ Use name from table
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  }
+
 };
 
 export default audienceService;
