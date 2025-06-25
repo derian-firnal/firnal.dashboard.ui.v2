@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { HiMiniUsers, HiMiniCube } from "react-icons/hi2";
 import { BiLineChart } from "react-icons/bi";
 import { PiClockCounterClockwiseFill } from "react-icons/pi";
@@ -32,8 +32,75 @@ const Dashboard = () => {
   const [audienceRows, setAudienceRows] = useState([]);
   const [fileCount, setFileCount] = useState([]);
   const [dashboardStats, setDashboardStats] = useState([]);
+  const pollingRef = useRef(null);
 
   const navigate = useNavigate();
+
+  const startPolling = () => {
+    if (pollingRef.current) return;
+    console.log("📡 Starting polling...");
+    pollingRef.current = setInterval(() => {
+      console.log("🔁 Polling...");
+      fetchUploads();
+    }, 5000);
+  };
+
+  const fetchUploads = async () => {
+    try {
+      const data = await audienceService.getAudienceUploadDetails();
+
+      const transformed = data.map((item) => {
+        const rawStatus = item.status?.toString().toLowerCase() || 'processing';
+        const normalizedStatus =
+          rawStatus === 'completed' ? 'Completed' :
+            rawStatus === 'failed' ? 'Failed' :
+              'Processing';
+
+        return {
+          id: item.id,
+          name: item.audienceName || item.fileName,
+          records: item.records || item.rowCount || 0,
+          date: new Date(item.uploadedAt).toLocaleDateString(),
+          match: item.matchRate || "92%",
+          status: normalizedStatus,
+        };
+      });
+
+      setAudienceRows(transformed);
+
+      const hasInProgress = transformed.some(
+        row => row.status?.toLowerCase?.() === 'processing' || row.status?.toLowerCase?.() === 'inprogress'
+      );
+
+      if (!hasInProgress) {
+        // Delay stopping polling by one more round, to allow new entries to show up
+        setTimeout(() => {
+          if (pollingRef.current && !audienceRows.some(row =>
+            row.status === 'Processing' || row.status === 'InProgress')) {
+            clearInterval(pollingRef.current);
+            pollingRef.current = null;
+          }
+        }, 3000); // 3s grace period
+      }
+
+    } catch (err) {
+      console.error("❌ Failed to fetch upload details", err);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchUploads();
+    startPolling();
+
+    return () => {
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current);
+        pollingRef.current = null;
+      }
+    };
+  }, []);
+
 
 
   useEffect(() => {
@@ -93,28 +160,6 @@ const Dashboard = () => {
     getStatsData();
   }, []);
 
-  useEffect(() => {
-    const fetchUploads = async () => {
-      try {
-        const data = await audienceService.getAudienceUploadDetails();
-        const transformed = data.map((item) => ({
-          id: item.id,
-          name: item.audienceName || item.fileName,
-          records: item.records || item.rowCount || 0,
-          date: new Date(item.uploadedAt).toLocaleDateString(),
-          match: item.matchRate || "92%",
-          status: item.status || "Processing",
-        }));
-        setAudienceRows(transformed);
-      } catch (err) {
-        console.error("❌ Failed to fetch upload details", err);
-      }
-    };
-
-    fetchUploads();
-  }, []);
-
-
   const handleUpload = (file) => {
     console.log("Uploaded file:", file.name);
     setPopupOpen(false);
@@ -148,34 +193,6 @@ const Dashboard = () => {
             <DashboardTile icon={<GiArcheryTarget className="text-[#FB923C]" />} label="Search for intent" onClick={() => navigate('/intentSearch')} />
             <DashboardTile icon={<HiMiniUsers className="text-[#60A5FA]" />} label="Search Businesses" onClick={() => navigate('/searchB2B')} />
             <DashboardTile icon={<FaPuzzlePiece className="text-[#34D399]" />} label="Enrich Audiences" onClick={() => navigate('/audiences')} />
-
-
-
-        {/* Ideal Customer Profile */}
-        {/* <div className="rounded-2xl shadow-md flex overflow-hidden h-24 bg-white text-gray-900">
-          <div className="flex-1 p-4 flex flex-col justify-center">
-            <h3 className="text-base font-semibold">Ideal Customer Profile</h3>
-            <p className="text-sm text-gray-600">
-              Based on your highest aligned traits, discover your ideal customer profile.
-            </p>
-          </div>
-          <button className="w-32 bg-[#6D6DFA] text-white font-semibold text-sm hover:bg-[#8181ff] transition">
-            Build ICP
-          </button>
-        </div> */}
-
-        {/* Find Similar Audiences */}
-        {/* <div className="rounded-2xl shadow-md flex overflow-hidden h-24 bg-white text-gray-900">
-          <div className="flex-1 p-4 flex flex-col justify-center">
-            <h3 className="text-base font-semibold">Find Similar Audiences</h3>
-            <p className="text-sm text-gray-600">
-              Based on your highest aligned traits, discover your ideal customer profile.
-            </p>
-          </div>
-          <button className="w-32 bg-[#6D6DFA] text-white font-semibold text-sm hover:bg-[#8181ff] transition">
-            Search
-          </button>
-        </div> */}
       </div>
 
 
@@ -214,12 +231,15 @@ const Dashboard = () => {
                 <td className="px-4 py-3">{row.date}</td>
                 <td className="px-4 py-3">{row.match}</td>
                 <td className="px-4 py-3">
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${row.status === 'Completed' ? 'bg-green-100 text-green-800' :
-                    row.status === 'Downloaded' ? 'bg-purple-100 text-purple-800' :
-                      'bg-orange-100 text-orange-800'
-                    }`}>
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    row.status === 'Completed' ? 'bg-green-100 text-green-800' :
+                    row.status === 'Failed' ? 'bg-red-100 text-red-800' :
+                    row.status === 'Processing' ? 'bg-blue-100 text-blue-800 animate-pulse' :
+                    'bg-yellow-100 text-yellow-800 animate-pulse'
+                  }`}>
                     {row.status}
                   </span>
+
                 </td>
               </tr>
             ))}
@@ -242,6 +262,21 @@ const Dashboard = () => {
           open={uploadPopupOpen}
           onClose={() => setUploadPopupOpen(false)}
           onFileUpload={handleUpload}
+          onUploadComplete={() => {
+            setUploadPopupOpen(false);
+            setAudienceRows(prev => [
+              {
+                id: `temp-${Date.now()}`,
+                name: 'Uploading...',
+                records: 0,
+                date: new Date().toLocaleDateString(),
+                match: '-',
+                status: 'Processing',
+              },
+              ...prev,
+            ]);
+            startPolling(); // restart immediately
+          }}
         />
       </div>
 

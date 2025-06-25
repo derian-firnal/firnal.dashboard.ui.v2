@@ -4,14 +4,17 @@ import audienceService from "../services/AudienceService";
 interface UploadAudiencePopupProps {
   open: boolean;
   onClose: () => void;
+  onUploadComplete?: () => void;
 }
 
 export default function UploadAudiencePopup({
   open,
   onClose,
+  onUploadComplete
 }: UploadAudiencePopupProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [audienceName, setAudienceName] = useState<string>("");
 
   if (!open) return null;
 
@@ -24,14 +27,22 @@ export default function UploadAudiencePopup({
   const handleUpload = async () => {
     if (selectedFiles.length === 0) return;
 
-    try {
-      await audienceService.uploadAudienceFiles(selectedFiles);
-      alert("✅ Upload successful!");
-      onClose();
-    } catch (error) {
-      console.error("Upload failed:", error);
-      alert("❌ Upload failed.");
-    }
+    const renamedFiles = selectedFiles.map((file, index) => {
+      const ext = file.name.split('.').pop() || "";
+      const baseName = audienceName.trim() !== "" ? audienceName : file.name.replace(/\.[^/.]+$/, "");
+      const newName =
+        selectedFiles.length === 1
+          ? `${baseName}.${ext}`
+          : `${baseName}_${index + 1}.${ext}`;
+
+      return new File([file], newName, { type: file.type });
+    });
+
+    // Call upload but don’t await it here
+    audienceService.uploadAudienceFiles(renamedFiles);
+
+    if (onUploadComplete) onUploadComplete(); // triggers popup close + refresh
+    onClose(); // immediately close popup
   };
 
   return (
@@ -43,6 +54,8 @@ export default function UploadAudiencePopup({
         <label className="block text-sm mb-2">Audience Name</label>
         <input
           type="text"
+          value={audienceName}
+          onChange={(e) => setAudienceName(e.target.value)}
           placeholder="Ex. Highest Retained Users"
           className="w-full px-3 py-2 mb-4 text-black rounded"
         />
