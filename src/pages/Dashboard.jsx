@@ -20,6 +20,7 @@ const Dashboard = () => {
   const [fileCount, setFileCount] = useState([]);
   const [dashboardStats, setDashboardStats] = useState([]);
   const pollingRef = useRef(null);
+  const [enrichingIds, setEnrichingIds] = useState([]);
 
   const navigate = useNavigate();
 
@@ -31,6 +32,21 @@ const Dashboard = () => {
       fetchUploads();
     }, 3000);
   };
+
+  const handleEnrichClick = async (uploadId) => {
+    setEnrichingIds((prev) => [...prev, uploadId]);
+
+    try {
+      const res = await audienceService.enrichAudience(uploadId);
+      console.log("✅ Enrichment completed:", res);
+      await fetchUploads(); // Refresh the table data
+    } catch (err) {
+      console.error("❌ Enrichment failed:", err);
+    } finally {
+      setEnrichingIds((prev) => prev.filter(id => id !== uploadId));
+    }
+  };
+
 
   const fetchUploads = async () => {
     try {
@@ -202,7 +218,13 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <AudienceTable rows={audienceRows} rowsPerPage={5} onRowClick={handleRowClick} />
+      <AudienceTable 
+        rows={audienceRows} 
+        rowsPerPage={5} 
+        onRowClick={handleRowClick} 
+        onEnrichClick={handleEnrichClick} 
+        enrichingIds={enrichingIds} 
+      />
 
       <div className="mt-4 overflow-x-auto rounded-xl shadow-md bg-white">
 

@@ -62,7 +62,12 @@ const audienceService = {
   getSampleData: async (uploadId: number) => {
     const response = await IAxiosService.get(`/audience/getSampleData/${uploadId}`);
     return response.data;
-  }
+  },
+
+  enrichAudience: async (uploadId: number) => {
+    const response = await IAxiosService.post(`/audience/EnrichAudience/${uploadId}`);
+    return response.data;
+  },
 
 };
 
