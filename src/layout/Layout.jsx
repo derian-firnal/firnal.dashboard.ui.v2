@@ -62,6 +62,7 @@ export default function Layout() {
     const [shrinkSidebar, setShrinkSidebar] = useState(false);
     const location = useLocation();
     const [activeFileName, setActiveFileName] = useState(null);
+    const [feedbackOpen, setFeedbackOpen] = useState(false);
 
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
     const userEmail = loggedInUser?.email || "User";
@@ -143,8 +144,8 @@ export default function Layout() {
                                                         localStorage.setItem("activeFileName", fileName);
                                                     }}
                                                     className={`w-full text-left block px-2 py-1 rounded-md text-sm font-semibold ${location.pathname === "/audienceDetail" && new URLSearchParams(location.search).get("fileName") === fileName
-                                                            ? "text-blue-700 bg-blue-50"
-                                                            : "text-gray-800 hover:bg-gray-100 hover:text-blue-600"
+                                                        ? "text-blue-700 bg-blue-50"
+                                                        : "text-gray-800 hover:bg-gray-100 hover:text-blue-600"
                                                         }`}
                                                 >
                                                     {fileName}
@@ -179,7 +180,44 @@ export default function Layout() {
                         <ul className="space-y-2">
                             {bottomNavigation.map((item) => (
                                 <li key={item.name}>
-                                    {item.onClick ? (
+                                    {item.name === "Feedback" ? (
+                                        <>
+                                            <button
+                                                onClick={() => setFeedbackOpen(!feedbackOpen)}
+                                                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-800 hover:bg-gray-100"
+                                            >
+                                                {item.name}
+                                            </button>
+                                            {feedbackOpen && (
+                                                <ul className="ml-4 mt-1 space-y-1">
+                                                    <li>
+                                                        <Link
+                                                            to="/feedback/question"
+                                                            className={`block px-3 py-1 rounded-md text-sm font-semibold ${location.pathname === "/feedback/question" ? "bg-blue-50 text-blue-700" : "text-gray-700 hover:bg-gray-100"}`}
+                                                        >
+                                                            Have a Question
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link
+                                                            to="/feedback/bug"
+                                                            className={`block px-3 py-1 rounded-md text-sm font-semibold ${location.pathname === "/feedback/bug" ? "bg-blue-50 text-blue-700" : "text-gray-700 hover:bg-gray-100"}`}
+                                                        >
+                                                            Report a Bug
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link
+                                                            to="/feedback/recommendations"
+                                                            className={`block px-3 py-1 rounded-md text-sm font-semibold ${location.pathname === "/feedback/recommendations" ? "bg-blue-50 text-blue-700" : "text-gray-700 hover:bg-gray-100"}`}
+                                                        >
+                                                            Dashboard Recommendations
+                                                        </Link>
+                                                    </li>
+                                                </ul>
+                                            )}
+                                        </>
+                                    ) : item.onClick ? (
                                         <button
                                             onClick={handleLogout}
                                             className="w-full text-left px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-100"
@@ -200,6 +238,7 @@ export default function Layout() {
                                 </li>
                             ))}
                         </ul>
+
                     </div>
                 </nav>
             </aside>
