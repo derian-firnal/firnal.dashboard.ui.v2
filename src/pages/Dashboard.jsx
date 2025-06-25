@@ -24,6 +24,7 @@ import { BiBarChartAlt2 } from "react-icons/bi";
 import { GiBrain, GiArcheryTarget } from "react-icons/gi";
 import { FaPuzzlePiece } from "react-icons/fa6"; // more modern look
 import { useNavigate } from "react-router-dom";
+import AudienceTable from "../components/tables/AudienceTable";
 
 const Dashboard = () => {
   const [statusPopupOpen, setStatusPopupOpen] = useState(false);
@@ -42,7 +43,7 @@ const Dashboard = () => {
     pollingRef.current = setInterval(() => {
       console.log("🔁 Polling...");
       fetchUploads();
-    }, 5000);
+    }, 3000);
   };
 
   const fetchUploads = async () => {
@@ -61,7 +62,7 @@ const Dashboard = () => {
           name: item.audienceName || item.fileName,
           records: item.records || item.rowCount || 0,
           date: new Date(item.uploadedAt).toLocaleDateString(),
-          match: item.matchRate || "92%",
+          isEnriched: item.isEnriched || false,
           status: normalizedStatus,
         };
       });
@@ -210,45 +211,13 @@ const Dashboard = () => {
         </div>
       </div>
 
+      <AudienceTable rows={audienceRows} rowsPerPage={5} onRowClick={handleRowClick} />
+
       <div className="mt-4 overflow-x-auto rounded-xl shadow-md bg-white">
-        <table className="min-w-full text-sm text-gray-800">
-          <thead className="text-left text-xs uppercase bg-gray-100 text-gray-500">
-            <tr>
-              <th className="px-4 py-3">Include</th>
-              <th className="px-4 py-3">Audience Name</th>
-              <th className="px-4 py-3">Records</th>
-              <th className="px-4 py-3">Date Uploaded</th>
-              <th className="px-4 py-3">Match Rate</th>
-              <th className="px-4 py-3">Status</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {audienceRows.map((row) => (
-              <tr key={row.id} className="hover:bg-gray-50 transition cursor-pointer" onClick={() => handleRowClick(row)}>
-                <td className="px-4 py-3"><input type="checkbox" /></td>
-                <td className="px-4 py-3">{row.name}</td>
-                <td className="px-4 py-3">{row.records}</td>
-                <td className="px-4 py-3">{row.date}</td>
-                <td className="px-4 py-3">{row.match}</td>
-                <td className="px-4 py-3">
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                    row.status === 'Completed' ? 'bg-green-100 text-green-800' :
-                    row.status === 'Failed' ? 'bg-red-100 text-red-800' :
-                    row.status === 'Processing' ? 'bg-blue-100 text-blue-800 animate-pulse' :
-                    'bg-yellow-100 text-yellow-800 animate-pulse'
-                  }`}>
-                    {row.status}
-                  </span>
 
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div className="px-4">
+        {/* <div className="px-4">
           <TablePagination />
-        </div>
+        </div> */}
 
         {/* Audience Status Popup */}
         <AudienceStatusPopup
