@@ -65,6 +65,7 @@ export default function Layout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [shrinkSidebar, setShrinkSidebar] = useState(false);
     const location = useLocation();
+    const [activeFileName, setActiveFileName] = useState(null);
 
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
     const userEmail = loggedInUser?.email || "User";
@@ -85,6 +86,22 @@ export default function Layout() {
             console.log("[Layout] Removed 'audienceSubmenuUpdated' event listener");
         };
     }, []);
+
+    useEffect(() => {
+        if (location.pathname === "/audienceDetail") {
+            const params = new URLSearchParams(location.search);
+            const fileName = params.get("fileName");
+            if (fileName) {
+                setActiveFileName(fileName);
+                localStorage.setItem("activeFileName", fileName);
+            }
+        } else {
+            const saved = localStorage.getItem("activeFileName");
+            if (saved) setActiveFileName(saved);
+        }
+    }, [location]);
+
+
 
     const handleLogout = () => {
         console.log('logging out user')
@@ -124,10 +141,14 @@ export default function Layout() {
                                         {submenuItems.map((fileName) => (
                                             <li key={fileName}>
                                                 <button
-                                                    onClick={() => navigate("/audienceDetail", { state: { fileName } })}
-                                                    className={`w-full text-left block px-2 py-1 rounded-md text-sm font-semibold ${location.pathname === "/audienceDetail"
-                                                        ? "text-blue-700 bg-blue-50"
-                                                        : "text-gray-800 hover:bg-gray-100 hover:text-blue-600"
+                                                    onClick={() => {
+                                                        navigate(`/audienceDetail?fileName=${encodeURIComponent(fileName)}`);
+                                                        setActiveFileName(fileName);
+                                                        localStorage.setItem("activeFileName", fileName);
+                                                    }}
+                                                    className={`w-full text-left block px-2 py-1 rounded-md text-sm font-semibold ${location.pathname === "/audienceDetail" && new URLSearchParams(location.search).get("fileName") === fileName
+                                                            ? "text-blue-700 bg-blue-50"
+                                                            : "text-gray-800 hover:bg-gray-100 hover:text-blue-600"
                                                         }`}
                                                 >
                                                     {fileName}

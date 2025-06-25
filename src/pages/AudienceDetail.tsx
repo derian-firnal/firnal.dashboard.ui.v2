@@ -20,40 +20,27 @@ export default function AudienceDetailPage() {
     const [hasInitialized, setHasInitialized] = useState(false);
     const [isDropdownDisabled, setIsDropdownDisabled] = useState(false);
 
+    const params = new URLSearchParams(location.search);
+    const fileName = params.get("fileName");
+
     useEffect(() => {
         const fetchAudiences = async () => {
             try {
                 const data = await audienceService.getAudiences();
                 setAudiences(data);
 
-                if (!hasInitialized) {
-                    const preselectedFile = location.state?.fileName;
-                    if (preselectedFile) {
-                        const matched = data.find((a) => a.fileName === preselectedFile);
-                        setSelectedAudience(matched || data[0]);
-                    } else {
-                        setSelectedAudience(data[0]);
-                    }
+                const matched = data.find((a) => a.fileName === fileName);
+                setSelectedAudience(matched || data[0]);
 
-                    setHasInitialized(true);
-                }
                 setIsDropdownDisabled(true);
+                setHasInitialized(true);
             } catch (error) {
                 console.error("Failed to fetch audiences", error);
             }
         };
 
         fetchAudiences();
-    }, [location.state, hasInitialized]);
-
-    // NEW: Clear fileName from history after first load
-    useEffect(() => {
-        if (hasInitialized && location.state?.fileName) {
-            navigate("/audienceDetail", { replace: true, state: {} });
-        }
-    }, [hasInitialized, location.state, navigate]);
-
-
+    }, [fileName]); // 👈 Reacts to query string change
 
     useEffect(() => {
         const fetchAverageIncome = async () => {
