@@ -28,7 +28,17 @@ const AudiencesPage = () => {
 
   const fetchUploads = async () => {
     try {
-      const data = await audienceService.getAudienceUploadDetails();
+      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+      const schemaName = loggedInUser.schemas?.[0]?.schemaName;
+
+      let data;
+      if (!schemaName) {
+        console.warn("❌ No schemaName found for logged in user - assumeing ADMIN");
+        data = await audienceService.getAudienceUploadDetails();
+      }
+      else {
+        data = await audienceService.getAudienceUploadDetailsForLoggedInUser(schemaName);
+      }
 
       const transformed = data.map((item) => {
         const rawStatus = item.status?.toString().toLowerCase() || 'processing';

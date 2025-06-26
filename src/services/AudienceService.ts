@@ -19,6 +19,11 @@ const audienceService = {
     return response.data;
   },
 
+  getAudienceUploadDetailsForLoggedInUser: async (schemaName: string) => {
+    const response = await IAxiosService.get(`audience/getAudienceUploadDetailsForLoggedInUser/${schemaName}`);
+    return response.data;
+  },
+
   getUploadedFilecount: async () => {
     const response = await IAxiosService.get("audience/getUploadedFileCount");
     return response.data;

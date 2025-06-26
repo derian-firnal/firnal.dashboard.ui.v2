@@ -106,17 +106,15 @@ export default function Layout() {
         navigate('/login');
     };
 
-    const handleSubmenuClick = (fileName) => {
-        navigate("/audienceDetail", { state: { fileName } });
-    };
-
     return (
         <div className="flex">
             {/* Sidebar */}
             <aside className="w-72 bg-white border-r min-h-screen p-4">
                 <div className="flex items-center gap-3 mb-6">
                     <img src={AppLogo} alt="Logo" className="h-8" />
-                    <h3 className="text-xl font-semibold text-gray-800">FirnalMoonbrush</h3>
+                    <h3 className="text-xl font-semibold text-gray-800">
+                        <span className="text-blue-400">Firnal</span>Moonbrush
+                    </h3>
                 </div>
 
                 <nav>
