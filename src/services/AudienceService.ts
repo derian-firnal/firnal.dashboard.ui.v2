@@ -79,11 +79,22 @@ const audienceService = {
       responseType: "blob",
     });
 
+    // Try to get filename from the Content-Disposition header
+    const disposition = response.headers["content-disposition"];
+    let filename = `${audienceName}.csv`; // fallback
+
+    if (disposition && disposition.includes("filename=")) {
+      const match = disposition.match(/filename="?([^"]+)"?/);
+      if (match?.[1]) {
+        filename = match[1];
+      }
+    }
+
     const blob = new Blob([response.data], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `${audienceName}.csv`; // ✅ Use name from table
+    link.download = filename //`${audienceName}.csv`; // ✅ Use name from table
     document.body.appendChild(link);
     link.click();
     link.remove();
