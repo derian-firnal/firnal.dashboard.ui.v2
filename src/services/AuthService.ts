@@ -26,4 +26,5 @@ export const registerUser = async (newUser) => {
 export const logoutUser = () => {
   localStorage.removeItem('jwtToken');
   localStorage.removeItem('loggedInUser');
+  localStorage.removeItem('audienceSubmenus');
 };
